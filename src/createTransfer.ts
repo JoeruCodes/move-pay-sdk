@@ -26,7 +26,7 @@ import {
 // The Payload is devoid of sender because sender's address is unknown at this point
 
 export const DEPLOYER_ADDRESS =
-  "0x0ab5130d080b01ff4f06eb4e4edf467321f07c443f1c2e5e0f3456f4e97a9b1d";
+  "0x88d48d52799ff8b98fd8bc4d685c38b824baa0cb0e01b052f63396848d155e6b";
 const config = new AptosConfig({
   network: Network.DEVNET,
   // fullnode: "https://aptos.testnet.suzuka.movementlabs.xyz/v1",

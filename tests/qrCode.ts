@@ -71,10 +71,6 @@ describe("test generate QRCodes", () => {
   });
   test("test qrcode normal", async () => {
     try {
-      //   const payload = await createTransfer(aptos, {
-      //     recipent: recipient.accountAddress,
-      //     amount: new BigNumber(1)
-      //   });
 
       const qrCodePayload = buildStandaloneQRcodeURL(
         recipient.accountAddress.toString(),
