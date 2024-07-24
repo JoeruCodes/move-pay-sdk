@@ -1,17 +1,21 @@
 # SPEC
 
-## QRCodes Generation Sequences
-<ul> <li>QRCodes generated for connecting to the app and then redirected to the transcation signing page using deeplinking</li>
-<br>
-<li>User already connected and just need to scan the QRCode to initiate the transaction </li>
-<br>
-<li>Or Both</li>
+## QR Code Generation Sequences
 
-</ul>
+### 1. Standard Gateway Usage
+- Utilize our gateway by employing the standard functions provided.
+
+### 2. Mobile App to Mobile App (M2M) DApps
+- For mobile-to-mobile DApps, use functions prefixed with `DApps`. Note that this approach currently results in large QR codes due to linking and other factors.
+
+### 3. Custom Gateway Development
+- For website DApps, create and manage your own gateway by building on top of our SDK. An example of this process will be provided soon.
+
+### 4. Standalone QR Code for Account-to-Account Token Transfers
+- Utilize the standalone QR code function to enable direct token transfers from one account to another.
 
 ## TODO
-<ul>
-    <li>Reduce the size of the link (current: 1100+ approx.)</li>
-    <li>Add optional field : message in the qrcode payload</li>
-    <li>Test gateway validation functions</li>
-</ul>
+
+- **Reduce QR Code Link Size:** Optimize the link to be smaller (current size: approximately 1100+ characters).
+- **Add Optional Message Field:** Include an optional field for messages within the QR code payload.
+- **Test Gateway Validation Functions:** Ensure thorough testing of gateway validation functions.
