@@ -1,4 +1,4 @@
-import {AccountAddress, AccountAddressInput, Aptos, AptosConfig, InputGenerateTransactionOptions, InputGenerateTransactionPayloadData, MoveUint64Type, MoveUint8Type, Network } from "@aptos-labs/ts-sdk";
+import {AccountAddress, AccountAddressInput, Aptos, AptosConfig, HexInput, InputGenerateTransactionOptions, InputGenerateTransactionPayloadData, MoveUint64Type, MoveUint8Type, Network } from "@aptos-labs/ts-sdk";
 import { Amount, Recipient, Token } from "./types";
 import BigNumber from "bignumber.js";
 import { assert } from "console";
@@ -90,15 +90,17 @@ export async function createSystemInstruction(recipent: AccountAddressInput, amo
 
 export async function createCustomTokenInstruction(recipent: AccountAddressInput, amount: BigNumber, customToken: AccountAddressInput, client: Aptos, symbol?: string): Promise<RawJsonPayload>{
     const tokenMetadata: any = await resolveTokenAddress(customToken as AccountAddress, client, symbol);
-
+    const tokenMetadataAsAddress = tokenMetadata[0].inner;
     const supply= await client.view({
         payload: {
             function: "0x1::fungible_asset::supply",
             typeArguments: ["0x1::fungible_asset::Metadata"],
-            functionArguments: [tokenMetadata]
+            functionArguments: [tokenMetadataAsAddress]
         }
     });
-    assert(supply[0] !== undefined || supply[0] !== null);
+
+    const supplyNum = (supply[0] as any).vec;
+    assert(supplyNum.length !== 0 && parseInt(supplyNum[0] as string) > 0);
 
     if ((amount.decimalPlaces() ?? 0) > parseInt((supply[0] as MoveUint64Type))) throw new CreateTransferError('amount decimals invalid');
 
@@ -106,17 +108,19 @@ export async function createCustomTokenInstruction(recipent: AccountAddressInput
         payload: {
             function: "0x1::fungible_asset::decimals",
             typeArguments: ["0x1::fungible_asset::Metadata"],
-            functionArguments: [tokenMetadata]
+            functionArguments: [tokenMetadataAsAddress]
         }
     });
     amount = amount.times(new BigNumber(10).pow(decimals[0] as MoveUint8Type)).integerValue(BigNumber.ROUND_FLOOR);
 
     assert(
-    await primaryStoreExists(recipent as AccountAddress, tokenMetadata, client)
+    await primaryStoreExists(recipent as AccountAddress, tokenMetadataAsAddress, client),
+    "Primary store doesnt exist for the token"
     );
 
     assert(
-        await isAccountPrimaryStoreFrozen(recipent as AccountAddress, tokenMetadata, client)
+        !(await isAccountPrimaryStoreFrozen(recipent as AccountAddress, tokenMetadataAsAddress, client)),
+        "account is frozen"
     );
     
     const payload: RawJsonPayload = {

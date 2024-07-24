@@ -63,4 +63,10 @@ describe('testing transaction builder', () => {
             })
         })
     });
+
+    test('test create custom token transfer function', () => {
+        createCustomTokenInstruction(recipent.accountAddress, BigNumber(1), recipent.accountAddress, aptos, "SCO").then((payload) => {
+            console.log(payload)
+        })
+    })
 })
