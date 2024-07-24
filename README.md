@@ -17,5 +17,5 @@
 ## TODO
 
 - **Reduce QR Code Link Size:** Optimize the link to be smaller (current size: approximately 1100+ characters).
-- **Add Optional Message Field:** Include an optional field for messages within the QR code payload.
-- **Test Gateway Validation Functions:** Ensure thorough testing of gateway validation functions.
+- **Add Optional Message Field:**
+- **Test Gateway Validation Functions:**
