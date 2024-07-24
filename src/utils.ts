@@ -3,7 +3,7 @@ import { DEPLOYER_ADDRESS } from "./createTransfer";
 import nacl  =require("tweetnacl");
 import { decodeBase64, encodeBase64, encodeUTF8 } from "tweetnacl-util";
 
-export async function getAccountBalance(account: AccountAddress, metadata: any, client: Aptos): Promise<number>{
+export async function getAccountBalance(account: AccountAddress, metadata: string, client: Aptos): Promise<number>{
     const ret = await client.view({
         payload: {
             function: "0x1::primary_fungible_store::balance",
@@ -14,18 +14,18 @@ export async function getAccountBalance(account: AccountAddress, metadata: any, 
 
     return parseInt((ret[0] as MoveUint64Type).toString())
 }
-export async function primaryStoreExists(owner: AccountAddress, metadata: any, client: Aptos): Promise<boolean>{
+export async function primaryStoreExists(owner: AccountAddress, metadata: string, client: Aptos): Promise<boolean>{
     const ret = await client.view({
         payload: {
             function: "0x1::primary_fungible_store::primary_store_exists",
             typeArguments: ["0x1::fungible_asset::Metadata"],
-            functionArguments: [owner, metadata]
+            functionArguments: [owner,  metadata]
         }
     });
 
     return (ret[0] as boolean);
 }
-export async function getAccountPrimaryStore(owner: AccountAddress, metadata: any, client: Aptos): Promise<AccountAddress>{
+export async function getAccountPrimaryStore(owner: AccountAddress, metadata: string, client: Aptos): Promise<AccountAddress>{
     const ret = await client.view({
         payload: {
             function: "0x1::primary_fungible_store::primary_store_address",
@@ -36,7 +36,7 @@ export async function getAccountPrimaryStore(owner: AccountAddress, metadata: an
 
     return (AccountAddress.fromString(ret.toString()))
 }
-export async function isAccountPrimaryStoreFrozen(account: AccountAddress, metadata: any, client: Aptos): Promise<boolean>{
+export async function isAccountPrimaryStoreFrozen(account: AccountAddress, metadata: string, client: Aptos): Promise<boolean>{
     const ret = await client.view({
         payload: {
             function: "0x1::primary_fungible_store::is_frozen",
@@ -128,4 +128,8 @@ export function decryptPayload(encryptedData:{
 
     // Decode the message from Uint8Array to a string
     return encodeUTF8(decryptedMessage);
+}
+
+export function fixMetadata(rawMetadata: MoveValue[]): string{
+    return (rawMetadata[0] as any).inner
 }
