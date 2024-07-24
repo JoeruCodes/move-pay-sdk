@@ -13,4 +13,5 @@
 <ul>
     <li>Reduce the size of the link (current: 1100+ approx.)</li>
     <li>Add optional field : message in the qrcode payload</li>
+    <li>Test gateway validation functions</li>
 </ul>
