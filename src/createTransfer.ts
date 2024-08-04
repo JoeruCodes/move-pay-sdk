@@ -28,7 +28,7 @@ import {
 export const DEPLOYER_ADDRESS =
   "0x88d48d52799ff8b98fd8bc4d685c38b824baa0cb0e01b052f63396848d155e6b";
 const config = new AptosConfig({
-  network: Network.DEVNET,
+  network: Network.TESTNET,
   // fullnode: "https://aptos.testnet.suzuka.movementlabs.xyz/v1",
   // faucet: "https://faucet.testnet.suzuka.movementlabs.xyz",
 });
