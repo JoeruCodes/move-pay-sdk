@@ -1,4 +1,10 @@
 {
+  "name": "move-pay",
+  "license": "MIT",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "devDependencies": {
     "@types/jest": "^29.5.12",
     "@types/node": "^20.14.11",
@@ -14,9 +20,11 @@
     "tsup": "^8.2.4",
     "typescript": "^5.5.3"
   },
+  "files": ["/dist"],
   "scripts": {
     "clean": "rimraf dist",
-    "build": "npm run clean && tsc"
+    "build": "tsup ./src/index.ts --format cjs,esm --dts",
+    "lint": "tsc"
   },
   "dependencies": {
     "@aptos-labs/ts-sdk": "^1.26.0",
