@@ -15,7 +15,6 @@ import {
   DEPLOYER_ADDRESS,
 } from "../src/createTransfer";
 import BigNumber from "bignumber.js";
-import { assert } from "console";
 import { createPrivateKey } from "crypto";
 import { fixMetadata, resolveTokenAddress } from "../src/utils";
 import * as dotenv from "dotenv";

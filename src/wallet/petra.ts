@@ -3,7 +3,6 @@ import nacl from "tweetnacl";
 import { encryptPayload } from "../utils";
 import { URLSearchParams } from "url";
 import { deflate } from "zlib";
-import { assert } from "console";
 
 const PETRA_LINK_BASE = "petra://api/v1";
 const PETRA_EXPLORE_REDIRECT = "https://petra.app/explore?link=";
@@ -32,7 +31,9 @@ export function petraQRConnect(transaction: RawJsonPayload): URL {
   const ret = new URL(
     `${PETRA_EXPLORE_REDIRECT}${DAPP_URL}&nonce=${encodeURIComponent(encryptedPayloadJson.nonce)}&data=${encodeURIComponent(encryptedPayloadJson.encrypted)}`,
   );
-  assert(ret.toString().length <= 2000);
+  if (ret.toString().length === 2000){
+    throw Error("Please use a smaller payload or use a link shortner instead ")
+  }
   return ret;
 }
 
@@ -65,7 +66,9 @@ export function petraQRConnectDApp(
   const ret = new URL(
     `${PETRA_LINK_BASE}/connect?data=${btoa(JSON.stringify(data))}`,
   );
-  assert(ret.toString().length <= 2000);
+  if (ret.toString().length > 2000){
+    throw Error("Please use a smaller payload or use a link shortner instead")
+  }
   return ret;
 }
 

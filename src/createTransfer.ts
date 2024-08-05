@@ -13,7 +13,6 @@ import {
 } from "@aptos-labs/ts-sdk";
 import { Amount, Recipient, Token } from "./types";
 import BigNumber from "bignumber.js";
-import { assert } from "console";
 import {
   fixMetadata,
   isAccountPrimaryStoreFrozen,
@@ -151,7 +150,9 @@ export async function createCustomTokenInstruction(
   });
 
   const supplyNum = (supply[0] as any).vec;
-  assert(supplyNum.length !== 0 && parseInt(supplyNum[0] as string) > 0);
+  if (supplyNum.length === 0 && parseInt(supplyNum[0] as string) === 0){
+    throw Error("Asset has no supply");
+  }
 
   if ((amount.decimalPlaces() ?? 0) > parseInt(supply[0] as MoveUint64Type))
     throw new CreateTransferError("amount decimals invalid");
@@ -167,24 +168,22 @@ export async function createCustomTokenInstruction(
     .times(new BigNumber(10).pow(decimals[0] as MoveUint8Type))
     .integerValue(BigNumber.ROUND_FLOOR);
 
-  assert(
-    await primaryStoreExists(
-      recipent as AccountAddress,
-      tokenMetadataAsAddress,
-      client,
-    ),
-    "Primary store doesnt exist for the token",
-  );
+  if (!await primaryStoreExists(
+    recipent as AccountAddress,
+    tokenMetadataAsAddress,
+    client,
+  )){
+    throw Error("Primary store doesnt exist for the token");
+  }
 
-  assert(
-    !(await isAccountPrimaryStoreFrozen(
-      recipent as AccountAddress,
-      tokenMetadataAsAddress,
-      client,
-    )),
-    "account is frozen",
-  );
-
+  
+  if(await isAccountPrimaryStoreFrozen(
+    recipent as AccountAddress,
+    tokenMetadataAsAddress,
+    client,
+  )){
+    throw Error("Account is frozen");
+  }
   const payload: RawJsonPayload = {
     data: {
       function: "0x1::primary_fungible_store::transfer",

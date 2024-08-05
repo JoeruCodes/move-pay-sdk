@@ -5,7 +5,6 @@ import {
   MoveValue,
 } from "@aptos-labs/ts-sdk";
 import { CreateTransferError } from "./createTransfer";
-import { assert } from "console";
 import {
   fixMetadata,
   getAccountBalance,
@@ -31,18 +30,18 @@ export async function validateCustomTokenTransfer(
   tokenMetadata: MoveValue[],
   amount: bigint,
 ) {
-  assert(
-    (await primaryStoreExists(
-      sender as AccountAddress,
-      fixMetadata(tokenMetadata),
-      client,
-    )) &&
-      !(await isAccountPrimaryStoreFrozen(
-        sender as AccountAddress,
-        fixMetadata(tokenMetadata),
-        client,
-      )),
-  );
+
+  if (!(await primaryStoreExists(
+    sender as AccountAddress,
+    fixMetadata(tokenMetadata),
+    client,
+  )) && (await isAccountPrimaryStoreFrozen(
+    sender as AccountAddress,
+    fixMetadata(tokenMetadata),
+    client,
+  ))){
+    throw Error("Primary Store doesnt Exist and/or Primary store is frozen");
+  }
   const senderBalance = await getAccountBalance(
     sender as AccountAddress,
     fixMetadata(tokenMetadata),
