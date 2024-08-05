@@ -1,6 +1,7 @@
 # SPEC
 
 ## Installation
+### Using npm
 ```
 npm i move-pay-sdk
 ```
