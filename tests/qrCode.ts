@@ -9,6 +9,7 @@ import {
 import { createQRCode } from "../src/buildQRcode";
 import fs from "fs";
 import * as dotenv from "dotenv";
+import nacl from "tweetnacl";
 dotenv.config();
 // Function to create QR Code from a given data string
 const createQRCodeFromCDN = async (data: any) => {
@@ -40,8 +41,8 @@ describe("test generate QRCodes", () => {
         recipent: recipient.accountAddress,
         amount: new BigNumber(1),
       });
-
-      const qrCodePayload = petraQRConnect(payload);
+      const SECRET_KEY = nacl.randomBytes(nacl.secretbox.keyLength);
+      const qrCodePayload = petraQRConnect(payload, SECRET_KEY);
       const qrCodeDataURL = await createQRCodeFromCDN(qrCodePayload.toString());
 
       const filePath = "qrcode.png";
@@ -57,8 +58,8 @@ describe("test generate QRCodes", () => {
         recipent: recipient.accountAddress,
         amount: new BigNumber(1),
       });
-
-      const qrCodePayload = petraQRConnectDApp(payload);
+      const SECRET_KEY = nacl.randomBytes(nacl.secretbox.keyLength);
+      const qrCodePayload = petraQRConnectDApp(SECRET_KEY, payload);
       console.log(qrCodePayload.toString()); // gives a big ass link appox 1100+ chars... ouch
       const qrCodeDataURL = await createQRCodeFromCDN(qrCodePayload.toString());
 

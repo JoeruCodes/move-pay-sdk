@@ -8,6 +8,7 @@ import {
 } from "../src/wallet/petra";
 import { decryptURL } from "../src/url";
 import * as dotenv from "dotenv";
+import nacl from "tweetnacl";
 dotenv.config();
 export const recipent = Account.fromPrivateKey({
   privateKey: new Ed25519PrivateKey(
@@ -20,9 +21,9 @@ describe("Serialization and Deserialization tests", () => {
       recipent: recipent.accountAddress,
       amount: BigNumber(1),
     });
-
-    const qrPayload = petraQRConnect(ret);
-    const decodedPayload = decryptURL(qrPayload);
+    const SECRET_KEY = nacl.randomBytes(nacl.secretbox.keyLength);
+    const qrPayload = petraQRConnect(ret, SECRET_KEY);
+    const decodedPayload = decryptURL(qrPayload, SECRET_KEY);
     expect(decodedPayload).toEqual({
       data: {
         function: "0x1::coin::transfer",
@@ -37,12 +38,13 @@ describe("Serialization and Deserialization tests", () => {
       recipent: recipent.accountAddress,
       amount: BigNumber(1),
     });
-    const qrPayload = petraQRConnectDApp(ret);
+    const SECRET_KEY = nacl.randomBytes(nacl.secretbox.keyLength);
+    const qrPayload = petraQRConnectDApp(SECRET_KEY, ret);
     const data = qrPayload.searchParams.get("data");
     if (data) {
       const linkerPayload: LinkerPayloadInterface = JSON.parse(atob(data));
       const linkerRedirectLink = linkerPayload.redirectLink;
-      const decryptedURL = decryptURL(new URL(linkerRedirectLink));
+      const decryptedURL = decryptURL(new URL(linkerRedirectLink), SECRET_KEY);
       expect(decryptedURL).toEqual({
         data: {
           function: "0x1::coin::transfer",

@@ -1,11 +1,10 @@
 import { isKeyObject } from "util/types";
 import { RawJsonPayload } from "./createTransfer";
 import { decryptPayload } from "./utils";
-import { SECRET_KEY } from "./wallet/petra";
-import { isObject } from "util";
 import { AccountAddress, AccountAddressInput } from "@aptos-labs/ts-sdk";
+import nacl from "tweetnacl";
 
-export function decryptURL(url: URL): RawJsonPayload {
+export function decryptURL(url: URL, SECRET_KEY: Uint8Array): RawJsonPayload {
   const urlParams = new URL(url).searchParams;
 
   const nonce = urlParams.get("nonce");

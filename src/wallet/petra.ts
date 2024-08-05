@@ -12,7 +12,7 @@ const APP_INFO = {
   name: "movepay",
 };
 
-export const SECRET_KEY = nacl.randomBytes(nacl.secretbox.keyLength);
+// export const SECRET_KEY = nacl.randomBytes(nacl.secretbox.keyLength);
 
 const APP_KEYPAIRS = {
   publicKey: new Uint8Array([
@@ -25,7 +25,7 @@ const APP_KEYPAIRS = {
   ]),
 };
 // basically parses the transaction into a qrcode payload for Petra
-export function petraQRConnect(transaction: RawJsonPayload): URL {
+export function petraQRConnect(transaction: RawJsonPayload, SECRET_KEY: Uint8Array): URL {
   const qrPayload = JSON.stringify(transaction);
   const encryptedPayloadJson = encryptPayload(qrPayload, SECRET_KEY);
   const ret = new URL(
@@ -47,6 +47,7 @@ export interface LinkerPayloadInterface {
 }
 // leave it blank for using movepay app...
 export function petraQRConnectDApp(
+  SECRET_KEY: Uint8Array,
   transaction: RawJsonPayload,
   dappURL?: string,
   DAPP_INFO?: {
@@ -100,7 +101,7 @@ function handleConnection(params: URLSearchParams): Uint8Array {
   throw new Error("Connection Refused");
 }
 
-export function parseResponseUrl(url: string): Uint8Array {
+export function parseResponseUrlDapp(url: string): Uint8Array {
   const urlObject = new URL(url);
   const params = new URLSearchParams(urlObject.search);
 
