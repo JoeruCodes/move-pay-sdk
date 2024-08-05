@@ -1,10 +1,14 @@
 {
   "name": "move-pay-sdk",
   "license": "MIT",
-  "version": "1.0.0",
+  "version": "1.0.1",
+  "description": "An sdk to seamlessly create qrcodes and aptos payment gateways",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "repository": {
+    "url": "https://github.com/JoeruCodes/move-pay-sdk"
+  },
   "devDependencies": {
     "@types/jest": "^29.5.12",
     "@types/node": "^20.14.11",

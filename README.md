@@ -1,5 +1,10 @@
 # SPEC
 
+## Installation
+```
+npm i move-pay-sdk
+```
+
 ## QR Code Generation Sequences
 
 ### 1. Standard Gateway Usage
