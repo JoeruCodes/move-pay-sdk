@@ -1,7 +1,6 @@
 import {
   AccountAddress,
   AccountAddressInput,
-  PublicKey,
 } from "@aptos-labs/ts-sdk";
 import BigNumber from "bignumber.js";
 

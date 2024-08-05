@@ -1,4 +1,4 @@
-import QRCodeStyling, { Options } from "qr-code-styling";
+import QRCodeStyling, { Options } from "./qrCodeStyling";
 
 export function createQRCode(
   url: string,

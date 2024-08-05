@@ -2,7 +2,6 @@ import { RawJsonPayload } from "../createTransfer";
 import nacl from "tweetnacl";
 import { encryptPayload } from "../utils";
 import { URLSearchParams } from "url";
-import { deflate } from "zlib";
 
 const PETRA_LINK_BASE = "petra://api/v1";
 const PETRA_EXPLORE_REDIRECT = "https://petra.app/explore?link=";

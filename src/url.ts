@@ -1,8 +1,6 @@
-import { isKeyObject } from "util/types";
 import { RawJsonPayload } from "./createTransfer";
 import { decryptPayload } from "./utils";
 import { AccountAddress, AccountAddressInput } from "@aptos-labs/ts-sdk";
-import nacl from "tweetnacl";
 
 export function decryptURL(url: URL, SECRET_KEY: Uint8Array): RawJsonPayload {
   const urlParams = new URL(url).searchParams;

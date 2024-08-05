@@ -3,7 +3,6 @@ import {
   AccountAddressInput,
   Aptos,
   AptosConfig,
-  HexInput,
   InputGenerateTransactionOptions,
   InputGenerateTransactionPayloadData,
   MoveUint64Type,

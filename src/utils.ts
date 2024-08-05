@@ -7,7 +7,7 @@ import {
   MoveValue,
 } from "@aptos-labs/ts-sdk";
 import { DEPLOYER_ADDRESS } from "./createTransfer";
-import nacl = require("tweetnacl");
+import nacl from "tweetnacl";
 import { decodeBase64, encodeBase64, encodeUTF8 } from "tweetnacl-util";
 
 export async function getAccountBalance(
