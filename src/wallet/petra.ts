@@ -27,8 +27,9 @@ const APP_KEYPAIRS = {
 export function petraQRConnect(transaction: RawJsonPayload, SECRET_KEY: Uint8Array): URL {
   const qrPayload = JSON.stringify(transaction);
   const encryptedPayloadJson = encryptPayload(qrPayload, SECRET_KEY);
+  
   const ret = new URL(
-    `${PETRA_EXPLORE_REDIRECT}${DAPP_URL}&nonce=${encodeURIComponent(encryptedPayloadJson.nonce)}&data=${encodeURIComponent(encryptedPayloadJson.encrypted)}`,
+    `${PETRA_EXPLORE_REDIRECT}${DAPP_URL}?nonce=${encodeURIComponent(encryptedPayloadJson.nonce)}&data=${encodeURIComponent(encryptedPayloadJson.encrypted)}`,
   );
   if (ret.toString().length === 2000){
     throw Error("Please use a smaller payload or use a link shortner instead ")
@@ -77,7 +78,6 @@ function getSharedEncryptionSecretKey(
   secretKey: Uint8Array = APP_KEYPAIRS.secretKey,
 ): Uint8Array {
   const { petraPublicencryptedKey } = JSON.parse(atob(data));
-  console.log(petraPublicencryptedKey);
 
   const sharedEncryptionSecretKey = nacl.box.before(
     Buffer.from(petraPublicencryptedKey.slice(2), "hex"),

@@ -1,7 +1,7 @@
 {
   "name": "move-pay-sdk",
   "license": "MIT",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "An sdk to seamlessly create qrcodes and aptos payment gateways",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -24,7 +24,9 @@
     "tsup": "^8.2.4",
     "typescript": "^5.5.3"
   },
-  "files": ["/dist"],
+  "files": [
+    "/dist"
+  ],
   "scripts": {
     "clean": "rimraf dist",
     "build": "tsup ./src/index.ts --format cjs,esm --dts",
@@ -33,7 +35,7 @@
   "dependencies": {
     "@aptos-labs/ts-sdk": "^1.26.0",
     "bignumber.js": "^9.1.2",
-    "qr-code-styling": "^1.6.0-rc.1",
+    "qrcode-generator": "^1.4.4",
     "tweetnacl": "^1.0.3",
     "tweetnacl-util": "^0.15.1"
   }
