@@ -69,7 +69,7 @@ describe("testing transaction builder", () => {
       data: {
         function: "0x1::coin::transfer",
         typeArguments: ["0x1::aptos_coin::AptosCoin"],
-        functionArguments: [recipent.accountAddress, amount.toNumber()],
+        functionArguments: [recipent.accountAddress.toString(), amount.toNumber().toString()],
       },
       message: undefined,
     });
@@ -95,8 +95,8 @@ describe("testing transaction builder", () => {
         typeArguments: ["0x1::fungible_asset::Metadata"],
         functionArguments: [
           fixMetadata(tokenMetadata),
-          recipent.accountAddress,
-          1,
+          recipent.accountAddress.toString(),
+          "1",
         ],
       },
       withFeePayer: true,
@@ -114,7 +114,7 @@ describe("testing transaction builder", () => {
       data: {
         function: "0x1::coin::transfer",
         typeArguments: ["0x1::aptos_coin::AptosCoin"],
-        functionArguments: [recipent.accountAddress, 10 ** 8],
+        functionArguments: [recipent.accountAddress.toString(), `${10 ** 8}`],
       },
       message: undefined,
     });
@@ -139,8 +139,8 @@ describe("testing transaction builder", () => {
         typeArguments: ["0x1::fungible_asset::Metadata"],
         functionArguments: [
           fixMetadata(tokenMetadata),
-          recipent.accountAddress,
-          100000000,
+          recipent.accountAddress.toString(),
+          "100000000",
         ],
       },
       withFeePayer: true,

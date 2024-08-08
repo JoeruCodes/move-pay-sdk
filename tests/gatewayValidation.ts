@@ -13,7 +13,7 @@ describe("test gateway validation functions", () => {
       "SCO",
     );
     validateCustomTokenTransfer(
-      recipent.accountAddress,
+      recipent.accountAddress.toString(),
       aptos,
       tokenMetadata,
       BigInt(1),
@@ -21,6 +21,6 @@ describe("test gateway validation functions", () => {
   });
   test("test validateSystemInstruction", async () => {
     // fails due to custom indexer... need to host a indexer...
-    await validateSystemInstruction(recipent.accountAddress, aptos, 1);
+    await validateSystemInstruction(recipent.accountAddress.toString(), aptos, 1);
   });
 });

@@ -23,12 +23,13 @@ describe("Serialization and Deserialization tests", () => {
     });
     const SECRET_KEY = nacl.randomBytes(nacl.secretbox.keyLength);
     const qrPayload = petraQRConnect(ret, SECRET_KEY).toString().slice("https://petra.app/explore?link=".length);
+    console.log(qrPayload, SECRET_KEY);
     const decodedPayload = decryptURL(new URL(qrPayload), SECRET_KEY);
     expect(decodedPayload).toEqual({
       data: {
         function: "0x1::coin::transfer",
         typeArguments: ["0x1::aptos_coin::AptosCoin"],
-        functionArguments: [recipent.accountAddress, 1],
+        functionArguments: [recipent.accountAddress.toString(), "1"],
       },
     });
   });
@@ -45,11 +46,12 @@ describe("Serialization and Deserialization tests", () => {
       const linkerPayload: LinkerPayloadInterface = JSON.parse(atob(data));
       const linkerRedirectLink = linkerPayload.redirectLink;
       const decryptedURL = decryptURL(new URL(linkerRedirectLink), SECRET_KEY);
+      
       expect(decryptedURL).toEqual({
         data: {
           function: "0x1::coin::transfer",
           typeArguments: ["0x1::aptos_coin::AptosCoin"],
-          functionArguments: [recipent.accountAddress, 1],
+          functionArguments: [recipent.accountAddress.toString(), "1"],
         },
       });
     }

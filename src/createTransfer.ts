@@ -64,7 +64,7 @@ export async function createTransfer(
       data: {
         function: "0x1::coin::transfer",
         typeArguments: ["0x1::aptos_coin::AptosCoin"],
-        functionArguments: [recipent, amount.toNumber()],
+        functionArguments: [recipent.toString(), amount.toString()],
       },
       message,
     };
@@ -81,8 +81,8 @@ export async function createTransfer(
       typeArguments: ["0x1::fungible_asset::Metadata"],
       functionArguments: [
         fixMetadata(tokenMetadata),
-        recipent,
-        amount.toNumber(),
+        recipent.toString(),
+        amount.toString(),
       ],
     },
     withFeePayer: true,
@@ -113,7 +113,7 @@ export async function createSystemInstruction(
     data: {
       function: "0x1::coin::transfer",
       typeArguments: ["0x1::aptos_coin::AptosCoin"],
-      functionArguments: [recipent, toks],
+      functionArguments: [recipent.toString(), toks.toString()],
     },
     message,
   };
@@ -189,8 +189,8 @@ export async function createCustomTokenInstruction(
       typeArguments: ["0x1::fungible_asset::Metadata"],
       functionArguments: [
         fixMetadata(tokenMetadata),
-        recipent,
-        amount.toNumber(),
+        recipent.toString(),
+        amount.toString(),
       ],
     },
     withFeePayer: true,

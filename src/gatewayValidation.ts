@@ -13,7 +13,7 @@ import {
 } from "./utils";
 
 export async function validateSystemInstruction(
-  sender: AccountAddress,
+  sender: string,
   client: Aptos,
   toks: number,
 ) {
@@ -25,25 +25,25 @@ export async function validateSystemInstruction(
 }
 
 export async function validateCustomTokenTransfer(
-  sender: AccountAddress,
+  sender: string,
   client: Aptos,
   tokenMetadata: MoveValue[],
   amount: bigint,
 ) {
 
   if (!(await primaryStoreExists(
-    sender as AccountAddress,
+    sender as AccountAddressInput as AccountAddress,
     fixMetadata(tokenMetadata),
     client,
   )) && (await isAccountPrimaryStoreFrozen(
-    sender as AccountAddress,
+    sender as AccountAddressInput as AccountAddress,
     fixMetadata(tokenMetadata),
     client,
   ))){
     throw Error("Primary Store doesnt Exist and/or Primary store is frozen");
   }
   const senderBalance = await getAccountBalance(
-    sender as AccountAddress,
+    sender as AccountAddressInput as AccountAddress,
     fixMetadata(tokenMetadata),
     client,
   );
@@ -51,7 +51,7 @@ export async function validateCustomTokenTransfer(
     throw new CreateTransferError("insufficient funds");
 }
 
-export async function validateTransfer(sender: AccountAddress, client: Aptos) {
+export async function validateTransfer(sender: string, client: Aptos) {
   const senderInfo = await client.getAccountInfo({
     accountAddress: sender as AccountAddressInput,
   });
