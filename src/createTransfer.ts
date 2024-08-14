@@ -94,7 +94,7 @@ export async function createTransfer(
 
 export async function createSystemInstruction(
   client: Aptos,
-  recipent: AccountAddressInput,
+  recipent: Recipient,
   amount: BigNumber,
   message?: string,
 ): Promise<RawJsonPayload> {
@@ -123,7 +123,7 @@ export async function createSystemInstruction(
 }
 
 export async function createCustomTokenInstruction(
-  recipent: AccountAddressInput,
+  recipent: Recipient,
   amount: BigNumber,
   customToken: AccountAddressInput,
   client: Aptos,
@@ -168,7 +168,7 @@ export async function createCustomTokenInstruction(
     .integerValue(BigNumber.ROUND_FLOOR);
 
   if (!await primaryStoreExists(
-    recipent as AccountAddress,
+    recipent as AccountAddressInput as AccountAddress,
     tokenMetadataAsAddress,
     client,
   )){
@@ -177,7 +177,7 @@ export async function createCustomTokenInstruction(
 
   
   if(await isAccountPrimaryStoreFrozen(
-    recipent as AccountAddress,
+    recipent as AccountAddressInput as AccountAddress,
     tokenMetadataAsAddress,
     client,
   )){

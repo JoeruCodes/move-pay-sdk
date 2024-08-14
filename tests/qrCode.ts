@@ -38,7 +38,7 @@ describe("test generate QRCodes", () => {
   test("test qrcode normal", async () => {
     try {
       const payload = await createTransfer(aptos, {
-        recipent: recipient.accountAddress,
+        recipent: recipient.accountAddress.toString(),
         amount: new BigNumber(1),
       });
       const SECRET_KEY = nacl.randomBytes(nacl.secretbox.keyLength);
@@ -55,7 +55,7 @@ describe("test generate QRCodes", () => {
   test("test qrcode normal", async () => {
     try {
       const payload = await createTransfer(aptos, {
-        recipent: recipient.accountAddress,
+        recipent: recipient.accountAddress.toString(),
         amount: new BigNumber(1),
       });
       const SECRET_KEY = nacl.randomBytes(nacl.secretbox.keyLength);

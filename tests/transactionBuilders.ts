@@ -61,7 +61,7 @@ describe("testing transaction builder", () => {
     const amount = new BigNumber(1);
 
     const ret = await createTransfer(aptos, {
-      recipent: recipent.accountAddress,
+      recipent: recipent.accountAddress.toString(),
       amount: amount,
     });
 
@@ -84,7 +84,7 @@ describe("testing transaction builder", () => {
     );
 
     const ret = await createTransfer(aptos, {
-      recipent: recipent.accountAddress,
+      recipent: recipent.accountAddress.toString(),
       amount: amount,
       token: recipent.accountAddress,
       tokenSymbol: "SCO",
@@ -107,7 +107,7 @@ describe("testing transaction builder", () => {
   test("test createSystemTransaction", async () => {
     const ret = await createSystemInstruction(
       aptos,
-      recipent.accountAddress,
+      recipent.accountAddress.toString(),
       BigNumber(1),
     );
     expect(ret).toEqual({
@@ -122,7 +122,7 @@ describe("testing transaction builder", () => {
 
   test("test create custom token transfer function", async () => {
     const ret = await createCustomTokenInstruction(
-      recipent.accountAddress,
+      recipent.accountAddress.toString(),
       BigNumber(1),
       recipent.accountAddress,
       aptos,

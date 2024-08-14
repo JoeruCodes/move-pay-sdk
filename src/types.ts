@@ -4,7 +4,7 @@ import {
 } from "@aptos-labs/ts-sdk";
 import BigNumber from "bignumber.js";
 
-export type Recipient = AccountAddressInput;
+export type Recipient = string;
 export type Amount = BigNumber;
 export type Token = AccountAddress;
 

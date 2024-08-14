@@ -18,7 +18,7 @@ export const recipent = Account.fromPrivateKey({
 describe("Serialization and Deserialization tests", () => {
   test("test serialization and deserialization tasks normal", async () => {
     const ret = await createTransfer(aptos, {
-      recipent: recipent.accountAddress,
+      recipent: recipent.accountAddress.toString(),
       amount: BigNumber(1),
     });
     const SECRET_KEY = nacl.randomBytes(nacl.secretbox.keyLength);
@@ -36,7 +36,7 @@ describe("Serialization and Deserialization tests", () => {
 
   test("test serialization and deserialization tasks M2M DApp", async () => {
     const ret = await createTransfer(aptos, {
-      recipent: recipent.accountAddress,
+      recipent: recipent.accountAddress.toString(),
       amount: BigNumber(1),
     });
     const SECRET_KEY = nacl.randomBytes(nacl.secretbox.keyLength);
