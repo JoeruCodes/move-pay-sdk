@@ -5,7 +5,10 @@
 ```
 npm i move-pay-sdk
 ```
-
+## Testing
+```
+npx jest --verbose --detectOpenHandles
+```
 ## QR Code Generation Sequences
 
 ### 1. Standard Gateway Usage

@@ -59,49 +59,18 @@ export async function createTransfer(
     accountAddress: recipent,
   });
   if (!recipientInfo) throw new CreateTransferError("recipient not found");
-  if (!token) {
-    const payload: RawJsonPayload = {
-      data: {
-        function: "0x1::coin::transfer",
-        typeArguments: ["0x1::aptos_coin::AptosCoin"],
-        functionArguments: [recipent.toString(), amount.toString()],
-      },
-      message,
-    };
-    return payload;
+  if (!token || token.toString() === "0x1") {
+    return createSystemInstruction(client, recipent, amount, message);
   }
-  const tokenMetadata: MoveValue[] = await resolveTokenAddress(
-    token,
-    client,
-    tokenSymbol,
-  );
-  const payload: RawJsonPayload = {
-    data: {
-      function: "0x1::primary_fungible_store::transfer",
-      typeArguments: ["0x1::fungible_asset::Metadata"],
-      functionArguments: [
-        fixMetadata(tokenMetadata),
-        recipent.toString(),
-        amount.toString(),
-      ],
-    },
-    withFeePayer: true,
-    message,
-  };
-
-  return payload;
+  return createCustomTokenInstruction(recipent, amount, token, client, tokenSymbol, message);
 }
 
-export async function createSystemInstruction(
+async function createSystemInstruction(
   client: Aptos,
   recipent: Recipient,
   amount: BigNumber,
   message?: string,
 ): Promise<RawJsonPayload> {
-  const recipientInfo = await client.getAccountInfo({
-    accountAddress: recipent,
-  });
-  if (!recipientInfo) throw new CreateTransferError("recipient not found");
   if ((amount.decimalPlaces() ?? 0) > 8)
     throw new CreateTransferError("amount decimals invalid");
 
@@ -117,12 +86,10 @@ export async function createSystemInstruction(
     },
     message,
   };
-
-  // aptos doesnt support FAcoin transfer yet
   return payload;
 }
 
-export async function createCustomTokenInstruction(
+async function createCustomTokenInstruction(
   recipent: Recipient,
   amount: BigNumber,
   customToken: AccountAddressInput,
@@ -130,10 +97,6 @@ export async function createCustomTokenInstruction(
   symbol?: string,
   message?: string,
 ): Promise<RawJsonPayload> {
-  const recipientInfo = await client.getAccountInfo({
-    accountAddress: recipent,
-  });
-  if (!recipientInfo) throw new CreateTransferError("recipient not found");
   const tokenMetadata: MoveValue[] = await resolveTokenAddress(
     customToken as AccountAddress,
     client,
@@ -150,7 +113,7 @@ export async function createCustomTokenInstruction(
 
   const supplyNum = (supply[0] as any).vec;
   if (supplyNum.length === 0 && parseInt(supplyNum[0] as string) === 0){
-    throw Error("Asset has no supply");
+    throw new CreateTransferError("Asset has no supply");
   }
 
   if ((amount.decimalPlaces() ?? 0) > parseInt(supply[0] as MoveUint64Type))
@@ -172,7 +135,7 @@ export async function createCustomTokenInstruction(
     tokenMetadataAsAddress,
     client,
   )){
-    throw Error("Primary store doesnt exist for the token");
+    throw new CreateTransferError("Primary store doesnt exist for the token");
   }
 
   
@@ -181,7 +144,7 @@ export async function createCustomTokenInstruction(
     tokenMetadataAsAddress,
     client,
   )){
-    throw Error("Account is frozen");
+    throw new CreateTransferError("Account is frozen");
   }
   const payload: RawJsonPayload = {
     data: {

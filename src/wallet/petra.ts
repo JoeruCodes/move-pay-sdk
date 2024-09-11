@@ -45,7 +45,7 @@ export interface LinkerPayloadInterface {
   redirectLink: string;
   dappEncryptionPublicKey: string;
 }
-// leave it blank for using movepay app...
+// used for a dapp callback after transaction is completed
 export function petraQRConnectDApp(
   SECRET_KEY: Uint8Array,
   transaction: RawJsonPayload,

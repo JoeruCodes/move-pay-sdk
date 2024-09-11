@@ -29,7 +29,7 @@ describe("Serialization and Deserialization tests", () => {
       data: {
         function: "0x1::coin::transfer",
         typeArguments: ["0x1::aptos_coin::AptosCoin"],
-        functionArguments: [recipent.accountAddress.toString(), "1"],
+        functionArguments: [recipent.accountAddress.toString(), "100000000"],
       },
     });
   });
@@ -51,7 +51,7 @@ describe("Serialization and Deserialization tests", () => {
         data: {
           function: "0x1::coin::transfer",
           typeArguments: ["0x1::aptos_coin::AptosCoin"],
-          functionArguments: [recipent.accountAddress.toString(), "1"],
+          functionArguments: [recipent.accountAddress.toString(), "100000000"],
         },
       });
     }
