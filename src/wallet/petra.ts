@@ -12,7 +12,8 @@ const APP_INFO = {
 };
 
 // export const SECRET_KEY = nacl.randomBytes(nacl.secretbox.keyLength);
-
+// Yes I'm posting secrets publicly KEKW
+// src: petra docs.
 const APP_KEYPAIRS = {
   publicKey: new Uint8Array([
     118, 68, 79, 3, 246, 166, 184, 234, 151, 32, 67, 102, 78, 252, 42, 254, 63,
